@@ -11,17 +11,17 @@ type AccountService interface {
 	Create(username, password, email string) (*models.Account, error)
 }
 
-type service struct {
+type accountService struct {
 	accountClient accounts.Client
 }
 
 func NewAccountService(accountClient accounts.Client) AccountService {
-	return &service{
+	return &accountService{
 		accountClient: accountClient,
 	}
 }
 
-func (s *service) Create(username, password, email string) (*models.Account, error) {
+func (s *accountService) Create(username, password, email string) (*models.Account, error) {
 
 	account, err := s.accountClient.CreateAccount(username, password, email)
 	if err != nil {
