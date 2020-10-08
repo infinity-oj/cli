@@ -6,7 +6,7 @@ import (
 	"github.com/infinity-oj/cli/internal/app"
 	"github.com/infinity-oj/cli/internal/clients"
 
-	//"github.com/infinity-oj/cli/internal/commands/file"
+	"github.com/infinity-oj/cli/internal/commands/volumes"
 	//"github.com/infinity-oj/cli/internal/commands/judgement"
 	//"github.com/infinity-oj/cli/internal/commands/problem"
 	//"github.com/infinity-oj/cli/internal/commands/submission"
@@ -21,7 +21,7 @@ import (
 var providerSet = wire.NewSet(
 	config.ProviderSet,
 	accounts.ProviderSet,
-	//file.ProviderSet,
+	volumes.ProviderSet,
 	//problem.ProviderSet,
 	//submission.ProviderSet,
 	//judgement.ProviderSet,

@@ -10,7 +10,9 @@ import (
 	"github.com/infinity-oj/cli/internal/app"
 	"github.com/infinity-oj/cli/internal/clients"
 	"github.com/infinity-oj/cli/internal/clients/accounts"
+	"github.com/infinity-oj/cli/internal/clients/volumes"
 	accounts2 "github.com/infinity-oj/cli/internal/commands/accounts"
+	volumes2 "github.com/infinity-oj/cli/internal/commands/volumes"
 	"github.com/infinity-oj/cli/internal/config"
 	"github.com/infinity-oj/cli/internal/service"
 	"github.com/urfave/cli/v2"
@@ -30,11 +32,14 @@ func CreateApp(cf string) (*cli.App, error) {
 	client := clients.NewClient(options)
 	accountsClient := accounts.NewAccountClient(client)
 	accountService := service.NewAccountService(accountsClient)
-	command := accounts2.NewAccountsCommands(accountService)
-	cliApp := app.NewApp(command)
+	accountCommand := accounts2.NewAccountsCommands(accountService)
+	volumeClient := volumes.NewVolumeClient(client)
+	volumeService := service.NewFileService(volumeClient)
+	volumeCommand := volumes2.NewVolumeCommands(volumeService)
+	cliApp := app.NewApp(accountCommand, volumeCommand)
 	return cliApp, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(config.ProviderSet, accounts2.ProviderSet, service.ProviderSet, app.ProviderSet, clients.ProviderSet)
+var providerSet = wire.NewSet(config.ProviderSet, accounts2.ProviderSet, volumes2.ProviderSet, service.ProviderSet, app.ProviderSet, clients.ProviderSet)

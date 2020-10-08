@@ -5,15 +5,16 @@ import (
 
 	"github.com/google/wire"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
+	"github.com/infinity-oj/cli/internal/commands/volumes"
 	"github.com/urfave/cli/v2"
 )
 
 func NewApp(
-	accountsCommand accounts.Command,
-	//fileCommand file.Command,
-	//problemCommand problem.Command,
-	//submissionCommand submission.Command,
-	//judgementCommand judgement.Command,
+	accountsCommand accounts.AccountCommand,
+	volumeCommand volumes.VolumeCommand,
+	//problemCommand problem.AccountCommand,
+	//submissionCommand submission.AccountCommand,
+	//judgementCommand judgement.AccountCommand,
 ) *cli.App {
 	app := &cli.App{
 		Name:        "",
@@ -25,10 +26,10 @@ func NewApp(
 		Description: "",
 		Commands: []*cli.Command{
 			accountsCommand,
-			//fileCommand.Command,
-			//problemCommand.Command,
-			//submissionCommand.Command,
-			//judgementCommand.Command,
+			volumeCommand,
+			//problemCommand.AccountCommand,
+			//submissionCommand.AccountCommand,
+			//judgementCommand.AccountCommand,
 		},
 		Flags:                  nil,
 		EnableBashCompletion:   false,

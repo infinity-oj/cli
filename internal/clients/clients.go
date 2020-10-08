@@ -8,6 +8,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/google/wire"
 	"github.com/infinity-oj/cli/internal/clients/accounts"
+	"github.com/infinity-oj/cli/internal/clients/volumes"
 	"github.com/spf13/viper"
 )
 
@@ -39,4 +40,8 @@ func NewClient(options *Options) *resty.Client {
 	return client
 }
 
-var ProviderSet = wire.NewSet(NewClient, NewOptions, accounts.NewAccountClient)
+var ProviderSet = wire.NewSet(
+	NewClient, NewOptions,
+	accounts.NewAccountClient,
+	volumes.NewVolumeClient,
+)
