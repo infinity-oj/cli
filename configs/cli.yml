@@ -1,0 +1,11 @@
+app:
+  name: app
+http:
+  url: http://127.0.0.1:8888/api/v1
+log:
+  filename: app.log
+  maxSize: 500
+  maxBackups: 3
+  maxAge: 3
+  level: "debug"
+  stdout: false
