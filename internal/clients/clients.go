@@ -3,6 +3,8 @@ package clients
 import (
 	"fmt"
 
+	cookiejar "github.com/juju/persistent-cookiejar"
+
 	"github.com/go-resty/resty/v2"
 	"github.com/google/wire"
 	"github.com/infinity-oj/cli/internal/clients/accounts"
@@ -13,6 +15,8 @@ import (
 type Options struct {
 	Url string `yaml:"url"`
 }
+
+var Jar, _ = cookiejar.New(nil)
 
 func NewOptions(v *viper.Viper) (*Options, error) {
 	var (
@@ -31,6 +35,7 @@ func NewOptions(v *viper.Viper) (*Options, error) {
 func NewClient(options *Options) *resty.Client {
 	client := resty.New()
 	client.SetHostURL(options.Url)
+	client.SetCookieJar(Jar)
 	return client
 }
 

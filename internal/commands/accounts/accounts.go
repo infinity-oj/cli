@@ -10,13 +10,14 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type Command = *cli.Command
+type AccountCommand *cli.Command
 
 var ProviderSet = wire.NewSet(NewAccountsCommands)
 
-func NewAccountsCommands(service service.AccountService) Command {
+func NewAccountsCommands(service service.AccountService) AccountCommand {
 	var subCommands = []*cli.Command{
 		NewCreateAccountCommand(service),
+		NewLoginAccountCommand(service),
 	}
 	return &cli.Command{
 		Name:        "accounts",

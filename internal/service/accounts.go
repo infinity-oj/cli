@@ -1,14 +1,17 @@
 package service
 
 import (
-	"github.com/infinity-oj/cli/internal/clients/accounts"
+	"fmt"
 
+	"github.com/infinity-oj/cli/internal/clients"
+	"github.com/infinity-oj/cli/internal/clients/accounts"
 	"github.com/infinity-oj/server-v2/pkg/models"
 	"github.com/pkg/errors"
 )
 
 type AccountService interface {
 	Create(username, password, email string) (*models.Account, error)
+	Login(username, password string) error
 }
 
 type accountService struct {
@@ -29,4 +32,18 @@ func (s *accountService) Create(username, password, email string) (*models.Accou
 	}
 
 	return account, nil
+}
+
+func (s *accountService) Login(username, password string) error {
+
+	err := s.accountClient.Login(username, password)
+	if err != nil {
+		return errors.Wrap(err, "create accounts error")
+	}
+
+	err = clients.Jar.Save()
+	if err != nil {
+		fmt.Println(err)
+	}
+	return nil
 }
