@@ -29,7 +29,7 @@ func (a *account) CreateAccount(username, password, email string) (*models.Accou
 	resp, err := a.client.R().
 		SetBody(request).
 		SetResult(account).
-		Post("/accounts/application")
+		Post("/account/application")
 	if err != nil {
 		return nil, err
 	}
