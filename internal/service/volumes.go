@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/infinity-oj/cli/internal/clients/volumes"
 	"github.com/infinity-oj/server-v2/pkg/models"
 
@@ -10,35 +12,30 @@ import (
 type VolumeService interface {
 	CreateVolume() (*models.Volume, error)
 	CreateDirectory(fileSpace, directory string) error
-	CreateFile(fileSpace, fileName string, data []byte) error
+	CreateFile(fileSpace, filename string, file []byte) error
 }
 
 type volumeService struct {
 	volumeClient volumes.VolumeClient
 }
 
-func (d *volumeService) CreateDirectory(fileSpace, directory string) error {
+func (d *volumeService) CreateDirectory(volume, directory string) error {
 
-	//fs, err := d.volumeClient.CreateVolume()
-	//if err != nil {
-	//	return errors.Wrap(err, "create directory error")
-	//}
-	//fmt.Println(fs.Status)
+	fmt.Println(volume, directory)
+	err := d.volumeClient.CreateDirectory(volume, directory)
+	if err != nil {
+		return errors.Wrap(err, "create directory error")
+	}
+
 	return nil
 }
 
-func (d *volumeService) CreateFile(fileSpace, fileName string, data []byte) error {
-	//req := &proto.CreateFileRequest{
-	//	FileSpace: fileSpace,
-	//	FilePath:  fileName,
-	//	Data:      data,
-	//}
-	//
-	//fs, err := d.volumeClient.CreateFile(context.TODO(), req)
-	//if err != nil {
-	//	return errors.Wrap(err, "Create volume error")
-	//}
-	//fmt.Println(fs.Status)
+func (d *volumeService) CreateFile(volume, filename string, file []byte) error {
+
+	err := d.volumeClient.CreateFile(volume, filename, file)
+	if err != nil {
+		return errors.Wrap(err, "Create volume error")
+	}
 	return nil
 }
 
