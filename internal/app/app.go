@@ -3,6 +3,8 @@ package app
 import (
 	"time"
 
+	"github.com/infinity-oj/cli/internal/commands/submissions"
+
 	"github.com/google/wire"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
 	"github.com/infinity-oj/cli/internal/commands/volumes"
@@ -13,7 +15,7 @@ func NewApp(
 	accountsCommand accounts.AccountCommand,
 	volumeCommand volumes.VolumeCommand,
 	//problemCommand problem.AccountCommand,
-	//submissionCommand submission.AccountCommand,
+	submissionCommand submissions.SubmissionCommand,
 	//judgementCommand judgement.AccountCommand,
 ) *cli.App {
 	app := &cli.App{
@@ -28,7 +30,7 @@ func NewApp(
 			accountsCommand,
 			volumeCommand,
 			//problemCommand.AccountCommand,
-			//submissionCommand.AccountCommand,
+			submissionCommand,
 			//judgementCommand.AccountCommand,
 		},
 		Flags:                  nil,

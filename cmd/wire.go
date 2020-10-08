@@ -9,8 +9,8 @@ import (
 	"github.com/infinity-oj/cli/internal/commands/volumes"
 	//"github.com/infinity-oj/cli/internal/commands/judgement"
 	//"github.com/infinity-oj/cli/internal/commands/problem"
-	//"github.com/infinity-oj/cli/internal/commands/submission"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
+	"github.com/infinity-oj/cli/internal/commands/submissions"
 	"github.com/infinity-oj/cli/internal/config"
 	"github.com/infinity-oj/cli/internal/service"
 
@@ -23,7 +23,7 @@ var providerSet = wire.NewSet(
 	accounts.ProviderSet,
 	volumes.ProviderSet,
 	//problem.ProviderSet,
-	//submission.ProviderSet,
+	submissions.ProviderSet,
 	//judgement.ProviderSet,
 	service.ProviderSet,
 	app.ProviderSet,
