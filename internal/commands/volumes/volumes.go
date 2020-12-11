@@ -19,7 +19,7 @@ func NewVolumeCommands(volumeService service.VolumeService) VolumeCommand {
 		NewUploadCommand(volumeService),
 	}
 	return &cli.Command{
-		Name:        "volume",
+		Name:        "volumes",
 		Aliases:     []string{"v"},
 		Usage:       "options for volume actions",
 		UsageText:   "",

@@ -47,7 +47,7 @@ func (d *volumeService) CreateVolume() (*models.Volume, error) {
 	return volume, nil
 }
 
-func NewFileService(volumeClient volumes.VolumeClient) VolumeService {
+func NewVolumeService(volumeClient volumes.VolumeClient) VolumeService {
 	return &volumeService{
 		volumeClient: volumeClient,
 	}

@@ -11,7 +11,7 @@ func NewCreateSubmissionCommand(submissionService service.SubmissionService) *cl
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
-		Usage:        "create a new submissions",
+		Usage:        "create a new submission",
 		UsageText:    "",
 		Description:  "",
 		ArgsUsage:    "",
