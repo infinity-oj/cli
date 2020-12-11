@@ -25,17 +25,17 @@ func NewOptions(v *viper.Viper) (*Options, error) {
 		err error
 		o   = new(Options)
 	)
-	if err = v.UnmarshalKey("http", o); err != nil {
-		return nil, err
-	}
 
-	fmt.Println(o)
+	o.Url = fmt.Sprintf("%s/api/v1", v.Get("host").(string))
+
+	fmt.Printf("Host: %s\n", o.Url)
 
 	return o, err
 }
 
 func NewClient(options *Options) *resty.Client {
 	client := resty.New()
+
 	client.SetHostURL(options.Url)
 	client.SetCookieJar(Jar)
 	return client

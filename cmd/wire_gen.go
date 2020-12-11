@@ -22,8 +22,8 @@ import (
 
 // Injectors from wire.go:
 
-func CreateApp(cf string) (*cli.App, error) {
-	viper, err := config.New(cf)
+func CreateApp() (*cli.App, error) {
+	viper, err := config.New()
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func CreateApp(cf string) (*cli.App, error) {
 	accountService := service.NewAccountService(accountsClient)
 	accountCommand := accounts2.NewAccountsCommands(accountService)
 	volumeClient := volumes.NewVolumeClient(client)
-	volumeService := service.NewFileService(volumeClient)
+	volumeService := service.NewVolumeService(volumeClient)
 	volumeCommand := volumes2.NewVolumeCommands(volumeService)
 	submissionsClient := submissions.NewSubmissionClient(client)
 	submissionService := service.NewSubmissionService(submissionsClient)

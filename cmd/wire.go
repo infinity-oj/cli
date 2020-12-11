@@ -31,6 +31,6 @@ var providerSet = wire.NewSet(
 	clients.ProviderSet,
 )
 
-func CreateApp(cf string) (*cli.App, error) {
+func CreateApp() (*cli.App, error) {
 	panic(wire.Build(providerSet))
 }

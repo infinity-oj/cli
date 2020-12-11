@@ -1,26 +1,25 @@
 package config
 
 import (
-	"fmt"
-
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )
 
 // Init 初始化viper
-func New(path string) (*viper.Viper, error) {
+func New() (*viper.Viper, error) {
 	var (
 		err error
 		v   = viper.New()
 	)
-	v.AddConfigPath(".")
-	v.SetConfigFile(path)
 
-	if err := v.ReadInConfig(); err == nil {
-		fmt.Printf("use config file -> %s\n", v.ConfigFileUsed())
-	} else {
+	v.SetEnvPrefix("IOJ")
+
+	err = v.BindEnv("host")
+	if err != nil {
 		return nil, err
 	}
+
+	v.SetDefault("host", "http://127.0.0.1:8888")
 
 	return v, err
 }
