@@ -11,6 +11,9 @@ type Client interface {
 	CreateAccount(username, password, email string) (*models.Account, error)
 
 	Login(username, password string) error
+
+
+	TestAccount() (*models.Account, error)
 }
 
 type account struct {
@@ -76,6 +79,33 @@ func (a *account) Login(username, password string) error {
 
 	return nil
 }
+
+
+func (a *account) TestAccount() (*models.Account, error) {
+	account := &models.Account{}
+
+	resp, err := a.client.R().
+		SetResult(account).
+		Get("/session/principal")
+	if err != nil {
+		return nil, err
+	}
+
+	// Explore response object
+	fmt.Println("Response Info:")
+	fmt.Println("  ", resp.Request.URL)
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
+
+	return account, nil
+}
+
 
 func NewAccountClient(client *resty.Client) Client {
 	return &account{

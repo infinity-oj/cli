@@ -12,6 +12,7 @@ import (
 type AccountService interface {
 	Create(username, password, email string) (*models.Account, error)
 	Login(username, password string) error
+	Test() (*models.Account, error)
 }
 
 type accountService struct {
@@ -45,5 +46,14 @@ func (s *accountService) Login(username, password string) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	return nil
+	return err
+}
+
+func (s *accountService) Test() (*models.Account, error) {
+
+	account, err := s.accountClient.TestAccount()
+	if err != nil {
+		return nil, errors.Wrap(err, "create accounts error")
+	}
+	return account, err
 }

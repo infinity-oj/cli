@@ -18,6 +18,7 @@ func NewAccountsCommands(service service.AccountService) AccountCommand {
 	var subCommands = []*cli.Command{
 		NewCreateAccountCommand(service),
 		NewLoginAccountCommand(service),
+		NewTestAccountCommand(service),
 	}
 	return &cli.Command{
 		Name:        "accounts",
