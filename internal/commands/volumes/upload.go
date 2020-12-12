@@ -3,13 +3,14 @@ package volumes
 import (
 	"io/ioutil"
 	"path"
+	"path/filepath"
 
 	"github.com/infinity-oj/cli/internal/service"
 	"github.com/urfave/cli/v2"
 )
 
-func uploadFile(volumeService service.VolumeService, localFilePath, volume, remoteDir string) (err error) {
-	dat, err := ioutil.ReadFile(localFilePath)
+func uploadFile(volumeService service.VolumeService, base, localFilePath, volume, remoteDir string) (err error) {
+	dat, err := ioutil.ReadFile(path.Join(base, localFilePath))
 	if err != nil {
 		return err
 	}
@@ -26,21 +27,21 @@ func uploadDirectory(volumeService service.VolumeService, base, localDir, volume
 	if err != nil {
 		return
 	}
+	remoteDir = path.Join(remoteDir, localDir)
 
-	err = volumeService.CreateDirectory(volume, localDir)
+	err = volumeService.CreateDirectory(volume, remoteDir)
 	if err != nil {
 		return
 	}
 
 	for _, f := range files {
 		if f.IsDir() {
-			if err = uploadDirectory(volumeService, base, path.Join(localDir, f.Name()), volume, path.Join(remoteDir, f.Name())); err != nil {
-				return
-			}
+			err = uploadDirectory(volumeService, base, path.Join(localDir, f.Name()), volume, remoteDir)
 		} else {
-			if err = uploadFile(volumeService, path.Join(base, localDir, f.Name()), volume, remoteDir); err != nil {
-				return
-			}
+			err = uploadFile(volumeService, base, path.Join(localDir, f.Name()), volume, remoteDir)
+		}
+		if err != nil {
+			return
 		}
 	}
 	return
@@ -62,14 +63,23 @@ func NewUploadCommand(fileService service.VolumeService) *cli.Command {
 		Action: func(c *cli.Context) error {
 			//fmt.Println("new task template: ", c.Args().First())
 			s := c.String("volume")
+			vp := c.String("volumePath")
 			p := c.String("path")
 			r := c.Bool("recursive")
+
+			p, err := filepath.Abs(p)
+			if err != nil {
+				return err
+			}
+			base := filepath.Base(p)
+			p = filepath.Dir(p)
+
 			if r {
-				if err := uploadDirectory(fileService, p, "", s, ""); err != nil {
+				if err := uploadDirectory(fileService, p, base, s, vp); err != nil {
 					return err
 				}
 			} else {
-				if err := uploadFile(fileService, p, s, ""); err != nil {
+				if err := uploadFile(fileService, p, base, s, vp); err != nil {
 					return err
 				}
 			}
@@ -83,7 +93,15 @@ func NewUploadCommand(fileService service.VolumeService) *cli.Command {
 				Name:     "volume",
 				Required: true,
 				Aliases:  []string{"v"},
-				Usage:    "target volume you want to upload",
+				Usage:    "target volume(path) you want to upload",
+			},
+			&cli.StringFlag{
+				Name:        "volumePath",
+				Aliases:     []string{"vp"},
+				Usage:       "target volume path",
+				Required:    false,
+				Value:       "/",
+				DefaultText: "/",
 			},
 			&cli.StringFlag{
 				Name:     "path",

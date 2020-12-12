@@ -11,8 +11,8 @@ import (
 
 type VolumeService interface {
 	CreateVolume() (*models.Volume, error)
-	CreateDirectory(fileSpace, directory string) error
-	CreateFile(fileSpace, filename string, file []byte) error
+	CreateDirectory(volume, directory string) error
+	CreateFile(volume, filename string, file []byte) error
 }
 
 type volumeService struct {

@@ -22,7 +22,7 @@ type volume struct {
 func (a *volume) CreateDirectory(volume, dirname string) error {
 	resp, err := a.client.R().
 		SetBody(map[string]string{
-			"dirname": "",
+			"dirname": dirname,
 		}).
 		Post(fmt.Sprintf("/volume/%s/directory", volume))
 
