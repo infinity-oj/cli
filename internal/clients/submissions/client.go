@@ -16,17 +16,20 @@ type submission struct {
 }
 
 func (a *submission) CreateSubmission(problemId, volume string) (*models.Submission, error) {
-	submission := &models.Submission{}
-
 	request := map[string]interface{}{
 		"problemId": problemId,
 		"volume":    volume,
 	}
 
+	response := &struct {
+		Submission *models.Submission `json:"submission"`
+		Judgement  *models.Judgement  `json:"judgement"`
+	}{}
+
 	resp, err := a.client.R().
 		SetBody(request).
-		SetResult(submission).
-		Post("/submissions")
+		SetResult(response).
+		Post("/submission")
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +46,7 @@ func (a *submission) CreateSubmission(problemId, volume string) (*models.Submiss
 	fmt.Println("  Body       :\n", resp)
 	fmt.Println()
 
-	return submission, nil
+	return response.Submission, nil
 }
 
 func NewSubmissionClient(client *resty.Client) Client {
