@@ -56,7 +56,7 @@ func NewCreateAccountCommand(accountService service.AccountService) *cli.Command
 			}
 
 
-			fmt.Print("Enter username: ")
+			fmt.Print("Enter email: ")
 			email, err := reader.ReadString('\n')
 			if err != nil {
 				return err
