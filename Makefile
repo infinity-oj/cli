@@ -1,6 +1,18 @@
+BIN_FILE:=cli
+
 .PHONY: build
 build: wire
-	go build -o ./dist/cli ./cmd
+	go env -w GOOS=windows
+	go env -w GOARCH=amd64
+	go build -o ./dist/$(BIN_FILE)-windows-amd64.exe ./cmd
+
+	go env -w GOOS=darwin
+	go env -w GOARCH=amd64
+	go build -o ./dist/$(BIN_FILE)-darwin-amd64 ./cmd
+
+	go env -w GOOS=linux
+	go env -w GOARCH=amd64
+	go build -o ./dist/$(BIN_FILE)-linux-amd64 ./cmd
 
 .PHONY: dev
 dev:
