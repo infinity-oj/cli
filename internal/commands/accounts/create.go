@@ -8,11 +8,13 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/fatih/color"
+	"github.com/infinity-oj/cli/internal/services"
+	"github.com/rodaine/table"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateAccountCommand(accountService service.AccountService) *cli.Command {
+func NewCreateAccountCommand(accountService services.AccountService) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
@@ -55,7 +57,6 @@ func NewCreateAccountCommand(accountService service.AccountService) *cli.Command
 				return nil
 			}
 
-
 			fmt.Print("Enter email: ")
 			email, err := reader.ReadString('\n')
 			if err != nil {
@@ -63,12 +64,21 @@ func NewCreateAccountCommand(accountService service.AccountService) *cli.Command
 			}
 			email = strings.TrimSpace(email)
 
-
 			account, err := accountService.Create(username, password, email)
 			if err != nil {
 				return err
 			}
-			fmt.Printf("%+v\n", account)
+
+			headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
+			columnFmt := color.New(color.FgYellow).SprintfFunc()
+
+			tbl := table.New("ID", "Time", "Name", "Email")
+			tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
+
+			tbl.AddRow(account.ID, account.CreatedAt, account.Name, account.Email)
+
+			tbl.Print()
+
 			return nil
 		},
 		OnUsageError:           nil,

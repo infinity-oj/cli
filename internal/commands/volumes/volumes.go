@@ -3,17 +3,17 @@ package volumes
 import (
 	"fmt"
 
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"
 )
 
-type VolumeCommand *cli.Command
+type VolumeCommands *cli.Command
 
 var ProviderSet = wire.NewSet(NewVolumeCommands)
 
-func NewVolumeCommands(volumeService service.VolumeService) VolumeCommand {
+func NewVolumeCommands(volumeService services.VolumeService) VolumeCommands {
 	var subCommands = []*cli.Command{
 		NewCreateVolumeCommand(volumeService),
 		NewUploadCommand(volumeService),

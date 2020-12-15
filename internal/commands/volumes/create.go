@@ -3,11 +3,11 @@ package volumes
 import (
 	"fmt"
 
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateVolumeCommand(volumeService service.VolumeService) *cli.Command {
+func NewCreateVolumeCommand(volumeService services.VolumeService) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},

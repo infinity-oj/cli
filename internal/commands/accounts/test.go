@@ -2,11 +2,11 @@ package accounts
 
 import (
 	"fmt"
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func NewTestAccountCommand(accountService service.AccountService) *cli.Command {
+func NewTestAccountCommand(accountService services.AccountService) *cli.Command {
 	return &cli.Command{
 		Name:         "test",
 		Aliases:      nil,

@@ -3,7 +3,7 @@ package accounts
 import (
 	"bufio"
 	"fmt"
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
@@ -11,7 +11,7 @@ import (
 	"syscall"
 )
 
-func NewLoginAccountCommand(accountService service.AccountService) *cli.Command {
+func NewLoginAccountCommand(accountService services.AccountService) *cli.Command {
 	return &cli.Command{
 		Name:         "login",
 		Aliases:      nil,

@@ -5,16 +5,16 @@ import (
 
 	"github.com/google/wire"
 
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 
 	"github.com/urfave/cli/v2"
 )
 
-type AccountCommand *cli.Command
+type AccountCommands *cli.Command
 
 var ProviderSet = wire.NewSet(NewAccountsCommands)
 
-func NewAccountsCommands(service service.AccountService) AccountCommand {
+func NewAccountsCommands(service services.AccountService) AccountCommands {
 	var subCommands = []*cli.Command{
 		NewCreateAccountCommand(service),
 		NewLoginAccountCommand(service),

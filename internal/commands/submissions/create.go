@@ -3,11 +3,11 @@ package submissions
 import (
 	"fmt"
 
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateSubmissionCommand(submissionService service.SubmissionService) *cli.Command {
+func NewCreateSubmissionCommand(submissionService services.SubmissionService) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},

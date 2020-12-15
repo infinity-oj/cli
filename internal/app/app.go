@@ -3,20 +3,18 @@ package app
 import (
 	"time"
 
-	"github.com/infinity-oj/cli/internal/commands/submissions"
-
 	"github.com/google/wire"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
+	"github.com/infinity-oj/cli/internal/commands/submissions"
 	"github.com/infinity-oj/cli/internal/commands/volumes"
 	"github.com/urfave/cli/v2"
 )
 
 func NewApp(
-	accountsCommand accounts.AccountCommand,
-	volumeCommand volumes.VolumeCommand,
-	//problemCommand problem.AccountCommand,
-	submissionCommand submissions.SubmissionCommand,
-	//judgementCommand judgement.AccountCommand,
+	accountsCommand accounts.AccountCommands,
+	volumeCommand volumes.VolumeCommands,
+//problemCommand problem.AccountCommands,
+	submissionCommand submissions.SubmissionCommands,
 ) *cli.App {
 	app := &cli.App{
 		Name:        "",

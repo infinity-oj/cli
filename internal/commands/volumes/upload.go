@@ -5,11 +5,11 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func uploadFile(volumeService service.VolumeService, base, localFilePath, volume, remoteDir string) (err error) {
+func uploadFile(volumeService services.VolumeService, base, localFilePath, volume, remoteDir string) (err error) {
 	dat, err := ioutil.ReadFile(path.Join(base, localFilePath))
 	if err != nil {
 		return err
@@ -22,7 +22,7 @@ func uploadFile(volumeService service.VolumeService, base, localFilePath, volume
 	return
 }
 
-func uploadDirectory(volumeService service.VolumeService, base, localDir, volume, remoteDir string) (err error) {
+func uploadDirectory(volumeService services.VolumeService, base, localDir, volume, remoteDir string) (err error) {
 	files, err := ioutil.ReadDir(path.Join(base, localDir))
 	if err != nil {
 		return
@@ -47,7 +47,7 @@ func uploadDirectory(volumeService service.VolumeService, base, localDir, volume
 	return
 }
 
-func NewUploadCommand(fileService service.VolumeService) *cli.Command {
+func NewUploadCommand(fileService services.VolumeService) *cli.Command {
 	return &cli.Command{
 		Name:         "upload",
 		Aliases:      []string{"up"},
