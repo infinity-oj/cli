@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/wire"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
+	"github.com/infinity-oj/cli/internal/commands/judgements"
 	"github.com/infinity-oj/cli/internal/commands/submissions"
 	"github.com/infinity-oj/cli/internal/commands/volumes"
 	"github.com/urfave/cli/v2"
@@ -15,6 +16,7 @@ func NewApp(
 	volumeCommand volumes.VolumeCommands,
 //problemCommand problem.AccountCommands,
 	submissionCommand submissions.SubmissionCommands,
+	judgementCommand judgements.JudgementCommands,
 ) *cli.App {
 	app := &cli.App{
 		Name:        "",
@@ -27,9 +29,9 @@ func NewApp(
 		Commands: []*cli.Command{
 			accountsCommand,
 			volumeCommand,
-			//problemCommand.AccountCommand,
+			//problemCommand.AccountCommands,
 			submissionCommand,
-			//judgementCommand.AccountCommand,
+			judgementCommand,
 		},
 		Flags:                  nil,
 		EnableBashCompletion:   false,
