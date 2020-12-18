@@ -31,7 +31,7 @@ func (s *judgementService) Create(problemId, volume string) (*models.Judgement, 
 
 	request := map[string]interface{}{
 		"problemId":     problemId,
-		"volumeService": volume,
+		"volume": volume,
 	}
 
 	response := &models.Judgement{}

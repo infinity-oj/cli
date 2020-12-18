@@ -23,7 +23,7 @@ func (a *volumeService) CreateDirectory(volume, dirname string) error {
 		SetBody(map[string]string{
 			"dirname": dirname,
 		}).
-		Post(fmt.Sprintf("/volumeService/%s/directory", volume))
+		Post(fmt.Sprintf("/volume/%s/directory", volume))
 
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func (a *volumeService) CreateFile(volume, filename string, file []byte) error {
 	_, err := a.client.R().
 		SetFileReader(
 			"file", filename, bytes.NewReader(file)).
-		Post(fmt.Sprintf("/volumeService/%s/file", volume))
+		Post(fmt.Sprintf("/volume/%s/file", volume))
 
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (a *volumeService) CreateVolume() (*models.Volume, error) {
 
 	_, err := a.client.R().
 		SetResult(volume).
-		Post("/volumeService")
+		Post("/volume")
 	if err != nil {
 		return nil, err
 	}

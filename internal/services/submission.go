@@ -17,7 +17,7 @@ func (s *service) Create(problemId, volume string) (*models.Submission, error) {
 
 	request := map[string]interface{}{
 		"problemId":     problemId,
-		"volumeService": volume,
+		"volume": volume,
 	}
 
 	response := &struct {
@@ -33,7 +33,7 @@ func (s *service) Create(problemId, volume string) (*models.Submission, error) {
 		return nil, err
 	}
 
-	// Explore response object
+	//Explore response object
 	//fmt.Println("Response Info:")
 	//fmt.Println("  ", resp.Request.URL)
 	//fmt.Println("  Error      :", err)
