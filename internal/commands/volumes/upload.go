@@ -1,6 +1,7 @@
 package volumes
 
 import (
+	"fmt"
 	"io/ioutil"
 	"path"
 	"path/filepath"
@@ -83,6 +84,13 @@ func NewUploadCommand(fileService services.VolumeService) *cli.Command {
 					return err
 				}
 			}
+
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+
+			fmt.Println("success!")
 
 			return nil
 		},

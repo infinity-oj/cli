@@ -3,14 +3,13 @@ package accounts
 import (
 	"bufio"
 	"fmt"
+	"github.com/infinity-oj/cli/internal/output"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
 	"syscall"
 
-	"github.com/fatih/color"
 	"github.com/infinity-oj/cli/internal/services"
-	"github.com/rodaine/table"
 	"github.com/urfave/cli/v2"
 )
 
@@ -69,14 +68,8 @@ func NewCreateAccountCommand(accountService services.AccountService) *cli.Comman
 				return err
 			}
 
-			headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
-			columnFmt := color.New(color.FgYellow).SprintfFunc()
-
-			tbl := table.New("ID", "Time", "Name", "Email")
-			tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
-
+			tbl := output.NewTable("ID", "Time", "Name", "Email")
 			tbl.AddRow(account.ID, account.CreatedAt, account.Name, account.Email)
-
 			tbl.Print()
 
 			return nil

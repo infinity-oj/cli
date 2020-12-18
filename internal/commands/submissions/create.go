@@ -1,9 +1,7 @@
 package submissions
 
 import (
-	"github.com/fatih/color"
-	"github.com/rodaine/table"
-
+	"github.com/infinity-oj/cli/internal/output"
 	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
@@ -29,14 +27,8 @@ func NewCreateSubmissionCommand(submissionService services.SubmissionService) *c
 				return err
 			}
 
-			headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
-			columnFmt := color.New(color.FgYellow).SprintfFunc()
-
-			tbl := table.New("ID", "Time", "Problem", "Volume")
-			tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
-
-			tbl.AddRow(submission.SubmissionId, submission.CreatedAt, submission.ProblemId, submission.UserVolume)
-
+			tbl := output.NewTable("ID", "Time", "Problem", "Volume")
+			tbl.AddRow(submission.Name, submission.CreatedAt, submission.ProblemId, submission.UserVolume)
 			tbl.Print()
 
 			return nil

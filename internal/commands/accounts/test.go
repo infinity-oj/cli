@@ -1,7 +1,7 @@
 package accounts
 
 import (
-	"fmt"
+	"github.com/infinity-oj/cli/internal/output"
 	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
@@ -23,7 +23,11 @@ func NewTestAccountCommand(accountService services.AccountService) *cli.Command 
 			if err != nil {
 				return err
 			}
-			fmt.Println(account)
+
+			tbl := output.NewTable("ID", "Time", "Name", "Email")
+			tbl.AddRow(account.ID, account.CreatedAt, account.Name, account.Email)
+			tbl.Print()
+
 			return nil
 		},
 		OnUsageError:           nil,

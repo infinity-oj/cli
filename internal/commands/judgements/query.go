@@ -1,9 +1,7 @@
 package judgements
 
 import (
-	"github.com/fatih/color"
-	"github.com/rodaine/table"
-
+	"github.com/infinity-oj/cli/internal/output"
 	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
@@ -26,16 +24,10 @@ func NewQueryJudgementCommand(judgementService services.JudgementService) *cli.C
 				return err
 			}
 
-			headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
-			columnFmt := color.New(color.FgYellow).SprintfFunc()
-
-			tbl := table.New("ID", "Time", "Submission", "Score")
-			tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
-
+			tbl := output.NewTable("ID", "Time", "Submission", "Score")
 			for _, judgement := range judgements {
 				tbl.AddRow(judgement.JudgementId, judgement.CreatedAt, judgement.SubmissionId, judgement.Score)
 			}
-
 			tbl.Print()
 
 			return nil

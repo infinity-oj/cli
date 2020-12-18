@@ -1,7 +1,7 @@
 package volumes
 
 import (
-	"fmt"
+	"github.com/infinity-oj/cli/internal/output"
 
 	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
@@ -25,7 +25,11 @@ func NewCreateVolumeCommand(volumeService services.VolumeService) *cli.Command {
 			if err != nil {
 				return err
 			}
-			fmt.Printf("%+v\n", volume)
+
+			tbl := output.NewTable("ID", "Time")
+			tbl.AddRow(volume.Name, volume.CreatedAt)
+			tbl.Print()
+
 			return nil
 		},
 
