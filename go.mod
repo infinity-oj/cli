@@ -7,7 +7,7 @@ require (
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/google/wire v0.4.0
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
-	github.com/infinity-oj/server-v2 v0.0.0-20201213120225-013449b2a324
+	github.com/infinity-oj/server-v2 v0.0.0-20201217130404-8540b3f5a25d
 	github.com/juju/go4 v0.0.0-20160222163258-40d72ab9641a // indirect
 	github.com/juju/persistent-cookiejar v0.0.0-20171026135701-d5e5a8405ef9
 	github.com/rodaine/table v1.0.1
