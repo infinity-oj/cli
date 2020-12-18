@@ -3,6 +3,7 @@ package accounts
 import (
 	"bufio"
 	"fmt"
+	"github.com/infinity-oj/cli/internal/clients"
 	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/crypto/ssh/terminal"
@@ -45,7 +46,10 @@ func NewLoginAccountCommand(api api.API) *cli.Command {
 			if err != nil {
 				return err
 			}
-			return nil
+
+			fmt.Println("Login successfully")
+
+			return clients.Jar.Save()
 		},
 		OnUsageError:           nil,
 		Subcommands:            nil,
