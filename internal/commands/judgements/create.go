@@ -2,11 +2,11 @@ package judgements
 
 import (
 	"github.com/infinity-oj/cli/internal/output"
-	"github.com/infinity-oj/cli/internal/services"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateJudgementCommand(judgementService services.JudgementService) *cli.Command {
+func NewCreateJudgementCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
@@ -22,7 +22,7 @@ func NewCreateJudgementCommand(judgementService services.JudgementService) *cli.
 			problemId := c.String("problemId")
 			volume := c.String("volume")
 
-			judgement, err := judgementService.Create(problemId, volume)
+			judgement, err := api.NewJudgementAPI().Create(problemId, volume)
 			if err != nil {
 				return err
 			}

@@ -2,11 +2,11 @@ package judgements
 
 import (
 	"github.com/infinity-oj/cli/internal/output"
-	"github.com/infinity-oj/cli/internal/services"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
 )
 
-func NewQueryJudgementCommand(judgementService services.JudgementService) *cli.Command {
+func NewQueryJudgementCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "query",
 		Aliases:      []string{"q"},
@@ -19,7 +19,7 @@ func NewQueryJudgementCommand(judgementService services.JudgementService) *cli.C
 		Before:       nil,
 		After:        nil,
 		Action: func(c *cli.Context) error {
-			judgements, err := judgementService.Query()
+			judgements, err := api.NewJudgementAPI().Query()
 			if err != nil {
 				return err
 			}

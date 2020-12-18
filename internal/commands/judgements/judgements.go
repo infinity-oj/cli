@@ -2,8 +2,7 @@ package judgements
 
 import (
 	"fmt"
-
-	"github.com/infinity-oj/cli/internal/services"
+	"github.com/infinity-oj/server-v2/pkg/api"
 
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"
@@ -13,10 +12,10 @@ type JudgementCommands *cli.Command
 
 var ProviderSet = wire.NewSet(NewJudgementsCommands)
 
-func NewJudgementsCommands(judgementService services.JudgementService) JudgementCommands {
+func NewJudgementsCommands(api api.API) JudgementCommands {
 	var subCommands = []*cli.Command{
-		NewCreateJudgementCommand(judgementService),
-		NewQueryJudgementCommand(judgementService),
+		NewCreateJudgementCommand(api),
+		NewQueryJudgementCommand(api),
 		//NewCreateSubmissionCommand(submissionService),
 		//NewDispatchSubmissionCommand(submissionService),
 	}

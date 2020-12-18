@@ -3,7 +3,7 @@ package accounts
 import (
 	"bufio"
 	"fmt"
-	"github.com/infinity-oj/cli/internal/services"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
@@ -11,7 +11,7 @@ import (
 	"syscall"
 )
 
-func NewLoginAccountCommand(accountService services.AccountService) *cli.Command {
+func NewLoginAccountCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "login",
 		Aliases:      nil,
@@ -41,7 +41,7 @@ func NewLoginAccountCommand(accountService services.AccountService) *cli.Command
 			password := strings.TrimSpace(string(bytePassword))
 			fmt.Println()
 
-			err = accountService.Login(username, password)
+			err = api.NewAccountAPI().Login(username, password)
 			if err != nil {
 				return err
 			}

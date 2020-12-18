@@ -2,11 +2,11 @@ package submissions
 
 import (
 	"github.com/infinity-oj/cli/internal/output"
-	"github.com/infinity-oj/cli/internal/services"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateSubmissionCommand(submissionService services.SubmissionService) *cli.Command {
+func NewCreateSubmissionCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
@@ -22,7 +22,7 @@ func NewCreateSubmissionCommand(submissionService services.SubmissionService) *c
 			problemId := c.String("problemId")
 			volume := c.String("volume")
 
-			submission, err := submissionService.Create(problemId, volume)
+			submission, err := api.NewSubmissionAPI().Create(problemId, volume)
 			if err != nil {
 				return err
 			}

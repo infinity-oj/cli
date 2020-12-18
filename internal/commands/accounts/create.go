@@ -4,16 +4,16 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/infinity-oj/cli/internal/output"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
 	"syscall"
 
-	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateAccountCommand(accountService services.AccountService) *cli.Command {
+func NewCreateAccountCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
@@ -63,7 +63,7 @@ func NewCreateAccountCommand(accountService services.AccountService) *cli.Comman
 			}
 			email = strings.TrimSpace(email)
 
-			account, err := accountService.Create(username, password, email)
+			account, err := api.NewAccountAPI().Create(username, password, email)
 			if err != nil {
 				return err
 			}

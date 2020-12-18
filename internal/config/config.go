@@ -19,7 +19,7 @@ func New() (*viper.Viper, error) {
 		return nil, err
 	}
 
-	v.SetDefault("host", "http://127.0.0.1:8888")
+	v.SetDefault("host", "http://10.20.107.171:2333")
 
 	return v, err
 }

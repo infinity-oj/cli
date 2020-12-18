@@ -2,12 +2,12 @@ package volumes
 
 import (
 	"github.com/infinity-oj/cli/internal/output"
+	"github.com/infinity-oj/server-v2/pkg/api"
 
-	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func NewCreateVolumeCommand(volumeService services.VolumeService) *cli.Command {
+func NewCreateVolumeCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
@@ -21,7 +21,7 @@ func NewCreateVolumeCommand(volumeService services.VolumeService) *cli.Command {
 		After:        nil,
 
 		Action: func(c *cli.Context) error {
-			volume, err := volumeService.CreateVolume()
+			volume, err := api.NewVolumeAPI().CreateVolume()
 			if err != nil {
 				return err
 			}

@@ -14,7 +14,6 @@ import (
 	"github.com/infinity-oj/cli/internal/commands/submissions"
 	"github.com/infinity-oj/cli/internal/commands/volumes"
 	"github.com/infinity-oj/cli/internal/config"
-	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
@@ -25,23 +24,15 @@ func CreateApp() (*cli.App, error) {
 	if err != nil {
 		return nil, err
 	}
-	options, err := clients.NewOptions(viper)
-	if err != nil {
-		return nil, err
-	}
-	client := clients.NewClient(options)
-	accountService := services.NewAccountService(client)
-	accountCommands := accounts.NewAccountsCommands(accountService)
-	volumeService := services.NewVolumeService(client)
-	volumeCommands := volumes.NewVolumeCommands(volumeService)
-	submissionService := services.NewSubmissionService(client)
-	submissionCommands := submissions.NewSubmissionCommands(submissionService)
-	judgementService := services.NewJudgementService(client)
-	judgementCommands := judgements.NewJudgementsCommands(judgementService)
+	api := clients.NewClient(viper)
+	accountCommands := accounts.NewAccountsCommands(api)
+	volumeCommands := volumes.NewVolumeCommands(api)
+	submissionCommands := submissions.NewSubmissionCommands(api)
+	judgementCommands := judgements.NewJudgementsCommands(api)
 	cliApp := app.NewApp(accountCommands, volumeCommands, submissionCommands, judgementCommands)
 	return cliApp, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(config.ProviderSet, accounts.ProviderSet, volumes.ProviderSet, submissions.ProviderSet, judgements.ProviderSet, services.ProviderSet, app.ProviderSet, clients.ProviderSet)
+var providerSet = wire.NewSet(config.ProviderSet, accounts.ProviderSet, volumes.ProviderSet, submissions.ProviderSet, judgements.ProviderSet, app.ProviderSet, clients.ProviderSet)

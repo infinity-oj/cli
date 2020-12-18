@@ -2,11 +2,11 @@ package accounts
 
 import (
 	"github.com/infinity-oj/cli/internal/output"
-	"github.com/infinity-oj/cli/internal/services"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
 )
 
-func NewTestAccountCommand(accountService services.AccountService) *cli.Command {
+func NewTestAccountCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "test",
 		Aliases:      nil,
@@ -19,7 +19,7 @@ func NewTestAccountCommand(accountService services.AccountService) *cli.Command 
 		Before:       nil,
 		After:        nil,
 		Action: func(c *cli.Context) error {
-			account, err := accountService.Test()
+			account, err := api.NewAccountAPI().Test()
 			if err != nil {
 				return err
 			}

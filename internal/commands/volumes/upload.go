@@ -2,44 +2,44 @@ package volumes
 
 import (
 	"fmt"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"io/ioutil"
 	"path"
 	"path/filepath"
 
-	"github.com/infinity-oj/cli/internal/services"
 	"github.com/urfave/cli/v2"
 )
 
-func uploadFile(volumeService services.VolumeService, base, localFilePath, volume, remoteDir string) (err error) {
+func uploadFile(api api.API, base, localFilePath, volume, remoteDir string) (err error) {
 	dat, err := ioutil.ReadFile(path.Join(base, localFilePath))
 	if err != nil {
 		return err
 	}
 
-	err = volumeService.CreateFile(volume, path.Join(remoteDir, path.Base(localFilePath)), dat)
+	err = api.NewVolumeAPI().CreateFile(volume, path.Join(remoteDir, path.Base(localFilePath)), dat)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func uploadDirectory(volumeService services.VolumeService, base, localDir, volume, remoteDir string) (err error) {
+func uploadDirectory(api api.API, base, localDir, volume, remoteDir string) (err error) {
 	files, err := ioutil.ReadDir(path.Join(base, localDir))
 	if err != nil {
 		return
 	}
 	remoteDir = path.Join(remoteDir, localDir)
 
-	err = volumeService.CreateDirectory(volume, remoteDir)
+	err = api.NewVolumeAPI().CreateDirectory(volume, remoteDir)
 	if err != nil {
 		return
 	}
 
 	for _, f := range files {
 		if f.IsDir() {
-			err = uploadDirectory(volumeService, base, path.Join(localDir, f.Name()), volume, remoteDir)
+			err = uploadDirectory(api, base, path.Join(localDir, f.Name()), volume, remoteDir)
 		} else {
-			err = uploadFile(volumeService, base, path.Join(localDir, f.Name()), volume, remoteDir)
+			err = uploadFile(api, base, path.Join(localDir, f.Name()), volume, remoteDir)
 		}
 		if err != nil {
 			return
@@ -48,7 +48,7 @@ func uploadDirectory(volumeService services.VolumeService, base, localDir, volum
 	return
 }
 
-func NewUploadCommand(fileService services.VolumeService) *cli.Command {
+func NewUploadCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "upload",
 		Aliases:      []string{"up"},
@@ -76,18 +76,13 @@ func NewUploadCommand(fileService services.VolumeService) *cli.Command {
 			p = filepath.Dir(p)
 
 			if r {
-				if err := uploadDirectory(fileService, p, base, s, vp); err != nil {
+				if err := uploadDirectory(api, p, base, s, vp); err != nil {
 					return err
 				}
 			} else {
-				if err := uploadFile(fileService, p, base, s, vp); err != nil {
+				if err := uploadFile(api, p, base, s, vp); err != nil {
 					return err
 				}
-			}
-
-			if err != nil {
-				fmt.Println(err)
-				return err
 			}
 
 			fmt.Println("success!")

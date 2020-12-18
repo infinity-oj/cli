@@ -2,10 +2,9 @@ package accounts
 
 import (
 	"fmt"
+	"github.com/infinity-oj/server-v2/pkg/api"
 
 	"github.com/google/wire"
-
-	"github.com/infinity-oj/cli/internal/services"
 
 	"github.com/urfave/cli/v2"
 )
@@ -14,11 +13,11 @@ type AccountCommands *cli.Command
 
 var ProviderSet = wire.NewSet(NewAccountsCommands)
 
-func NewAccountsCommands(service services.AccountService) AccountCommands {
+func NewAccountsCommands(api api.API) AccountCommands {
 	var subCommands = []*cli.Command{
-		NewCreateAccountCommand(service),
-		NewLoginAccountCommand(service),
-		NewTestAccountCommand(service),
+		NewCreateAccountCommand(api),
+		NewLoginAccountCommand(api),
+		NewTestAccountCommand(api),
 	}
 	return &cli.Command{
 		Name:        "accounts",
