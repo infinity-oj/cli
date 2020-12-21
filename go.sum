@@ -190,6 +190,12 @@ github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf h1:WfD7V
 github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf/go.mod h1:hyb9oH7vZsitZCiBt0ZvifOrB+qc8PS5IiilCIb87rg=
 github.com/infinity-oj/server-v2 v0.0.0-20201218135102-00c69d13499f h1:ujhDI8lXgvqfTPjnt++/3MN4GghMpXqjkpS+ud2xZxc=
 github.com/infinity-oj/server-v2 v0.0.0-20201218135102-00c69d13499f/go.mod h1:COPTgH2ZmfSMIFWV01STn6Ke0rd2zsQnhO+G+ugE724=
+github.com/infinity-oj/server-v2 v0.0.0-20201218142807-25e8ed28e940 h1:DqnQT82yNIksQBw9EosfwiyJSTNMvA4MgUaDc0FRHLA=
+github.com/infinity-oj/server-v2 v0.0.0-20201218142807-25e8ed28e940/go.mod h1:uL59uD9H4B2FhflBnnHotYZIIPjTMG97lDXUj4mokP0=
+github.com/infinity-oj/server-v2 v0.0.0-20201218143223-30f79f3c8a68 h1:XugAwhR3inTPksx3w9dgTxZJXv4aMIa1+VFz4/g63ZA=
+github.com/infinity-oj/server-v2 v0.0.0-20201218143223-30f79f3c8a68/go.mod h1:uL59uD9H4B2FhflBnnHotYZIIPjTMG97lDXUj4mokP0=
+github.com/infinity-oj/server-v2 v0.0.0-20201221063116-f16d9d16dea1 h1:gmqybn0LpyAlBROiCU8qeGgQulFb5u7axcc2GqVyaNg=
+github.com/infinity-oj/server-v2 v0.0.0-20201221063116-f16d9d16dea1/go.mod h1:uL59uD9H4B2FhflBnnHotYZIIPjTMG97lDXUj4mokP0=
 github.com/jinzhu/gorm v1.9.15/go.mod h1:G3LB3wezTOWM2ITLzPxEXgSkOXAntiLHS7UdBefADcs=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.0.1/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
