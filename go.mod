@@ -7,7 +7,7 @@ require (
 	github.com/frankban/quicktest v1.11.3 // indirect
 	github.com/google/wire v0.4.0
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
-	github.com/infinity-oj/server-v2 v0.0.0-20201221063116-f16d9d16dea1
+	github.com/infinity-oj/server-v2 v0.0.0-20201221091900-3d23a474f0a6
 	github.com/juju/go4 v0.0.0-20160222163258-40d72ab9641a // indirect
 	github.com/juju/persistent-cookiejar v0.0.0-20171026135701-d5e5a8405ef9
 	github.com/rodaine/table v1.0.1

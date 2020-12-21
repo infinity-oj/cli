@@ -18,6 +18,7 @@ func NewAccountsCommands(api api.API) AccountCommands {
 		NewCreateAccountCommand(api),
 		NewLoginAccountCommand(api),
 		NewTestAccountCommand(api),
+		NewResetAccountCommand(api),
 	}
 	return &cli.Command{
 		Name:        "accounts",
