@@ -190,6 +190,8 @@ github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf h1:WfD7V
 github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf/go.mod h1:hyb9oH7vZsitZCiBt0ZvifOrB+qc8PS5IiilCIb87rg=
 github.com/infinity-oj/server-v2 v0.0.0-20201221091900-3d23a474f0a6 h1:9AbqGj7OUMFEuuTRhyREtRjaJ3OtE8feGKpmIfEUlFk=
 github.com/infinity-oj/server-v2 v0.0.0-20201221091900-3d23a474f0a6/go.mod h1:uL59uD9H4B2FhflBnnHotYZIIPjTMG97lDXUj4mokP0=
+github.com/infinity-oj/server-v2 v0.0.0-20201222082025-e6432c657b84 h1:jubuQKv18bx3TdLhGg2UidOD9kTjkZceMulBEjHdz1g=
+github.com/infinity-oj/server-v2 v0.0.0-20201222082025-e6432c657b84/go.mod h1:uL59uD9H4B2FhflBnnHotYZIIPjTMG97lDXUj4mokP0=
 github.com/jinzhu/gorm v1.9.15/go.mod h1:G3LB3wezTOWM2ITLzPxEXgSkOXAntiLHS7UdBefADcs=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.0.1/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
