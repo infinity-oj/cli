@@ -16,6 +16,7 @@ func NewJudgementsCommands(api api.API) JudgementCommands {
 	var subCommands = []*cli.Command{
 		NewCreateJudgementCommand(api),
 		NewQueryJudgementCommand(api),
+		NewCancelJudgementCommand(api),
 		//NewCreateSubmissionCommand(submissionService),
 		//NewDispatchSubmissionCommand(submissionService),
 	}
