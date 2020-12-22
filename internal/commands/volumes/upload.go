@@ -91,7 +91,8 @@ func NewUploadCommand(api api.API) *cli.Command {
 		},
 
 		OnUsageError: nil,
-		Subcommands:  nil, Flags: []cli.Flag{
+		Subcommands:  nil,
+		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "volume",
 				Required: true,
