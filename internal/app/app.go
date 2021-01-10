@@ -30,7 +30,7 @@ func NewApp(
 		Usage:       "cli tool to interact with ioj",
 		UsageText:   "",
 		ArgsUsage:   "",
-		Version:     "v0.0.1",
+		Version:     "v0.0.2",
 		Description: "",
 		Commands: []*cli.Command{
 			accountsCommand,
@@ -38,7 +38,6 @@ func NewApp(
 			//problemCommand.AccountCommands,
 			submissionCommand,
 			judgementCommand,
-
 			{
 				Name:         "upgrade",
 				Aliases:      nil,

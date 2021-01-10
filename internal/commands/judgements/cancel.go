@@ -19,8 +19,7 @@ func NewCancelJudgementCommand(api api.API) *cli.Command {
 		Before:       nil,
 		After:        nil,
 		Action: func(c *cli.Context) error {
-			judgementId := c.String("judgement id")
-
+			judgementId := c.String("judgementId")
 			judgement, err := api.NewJudgementAPI().CancelJudgement(judgementId)
 			if err != nil {
 				return err
@@ -36,8 +35,9 @@ func NewCancelJudgementCommand(api api.API) *cli.Command {
 		Subcommands:  nil,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:    "judgement id",
-				Aliases: []string{"jid"},
+				Name:     "judgementId",
+				Aliases:  []string{"jid"},
+				Required: true,
 			},
 		},
 		SkipFlagParsing:        false,

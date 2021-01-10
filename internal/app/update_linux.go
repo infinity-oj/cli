@@ -5,6 +5,6 @@ import (
 )
 
 func filename() string {
-	return fmt.Sprintf("cli-darwin-amd64")
+	return fmt.Sprintf("cli-linux-amd64")
 }
 
