@@ -2,21 +2,22 @@ package app
 
 import (
 	"fmt"
-	"net/http"
-	"net/url"
-	"path"
-	"time"
-
 	"github.com/google/wire"
 	"github.com/inconshreveable/go-update"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
 	"github.com/infinity-oj/cli/internal/commands/judgements"
 	"github.com/infinity-oj/cli/internal/commands/submissions"
 	"github.com/infinity-oj/cli/internal/commands/volumes"
+	"github.com/infinity-oj/cli/internal/commands/workspace"
 	"github.com/urfave/cli/v2"
+	"net/http"
+	"net/url"
+	"path"
+	"time"
 )
 
 func NewApp(
+	workspaceCommands workspace.Commands,
 	accountsCommand accounts.AccountCommands,
 	volumeCommand volumes.VolumeCommands,
 //problemCommand problem.AccountCommands,
@@ -32,7 +33,7 @@ func NewApp(
 		ArgsUsage:   "",
 		Version:     "v0.0.2",
 		Description: "",
-		Commands: []*cli.Command{
+		Commands: append([]*cli.Command{
 			accountsCommand,
 			volumeCommand,
 			//problemCommand.AccountCommands,
@@ -73,14 +74,8 @@ func NewApp(
 				UseShortOptionHandling: false,
 				HelpName:               "",
 				CustomHelpTemplate:     "",
-			},
-		},
-		Flags: []cli.Flag{
-			&cli.BoolFlag{
-				Name:  "verbose, v",
-				Usage: "show extra information",
-			},
-		},
+			}}, workspaceCommands...),
+		Flags:                nil,
 		EnableBashCompletion: false,
 		HideHelp:             false,
 		HideVersion:          false,

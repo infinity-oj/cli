@@ -7,6 +7,7 @@ import (
 	"github.com/infinity-oj/cli/internal/clients"
 
 	"github.com/google/wire"
+	"github.com/infinity-oj/cli/internal/commands/workspace"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
 	"github.com/infinity-oj/cli/internal/commands/judgements"
 	"github.com/infinity-oj/cli/internal/commands/submissions"
@@ -20,6 +21,7 @@ var providerSet = wire.NewSet(
 	accounts.ProviderSet,
 	volumes.ProviderSet,
 	//problem.ProviderSet,
+	workspace.ProviderSet,
 	submissions.ProviderSet,
 	judgements.ProviderSet,
 
