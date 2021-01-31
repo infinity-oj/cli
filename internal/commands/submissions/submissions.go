@@ -2,20 +2,19 @@ package submissions
 
 import (
 	"fmt"
-
-	"github.com/infinity-oj/cli/internal/service"
+	"github.com/infinity-oj/server-v2/pkg/api"
 
 	"github.com/google/wire"
 	"github.com/urfave/cli/v2"
 )
 
-type SubmissionCommand *cli.Command
+type SubmissionCommands *cli.Command
 
 var ProviderSet = wire.NewSet(NewSubmissionCommands)
 
-func NewSubmissionCommands(submissionService service.SubmissionService) SubmissionCommand {
+func NewSubmissionCommands(api api.API) SubmissionCommands {
 	var subCommands = []*cli.Command{
-		NewCreateSubmissionCommand(submissionService),
+		NewCreateSubmissionCommand(api),
 		//NewDispatchSubmissionCommand(submissionService),
 	}
 	return &cli.Command{

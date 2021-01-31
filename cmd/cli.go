@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	app, err := CreateApp("./configs/cli.yml")
+	app, err := CreateApp()
 	if err != nil {
 		panic(err)
 	}

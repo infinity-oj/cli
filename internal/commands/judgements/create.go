@@ -1,18 +1,16 @@
-package submissions
+package judgements
 
 import (
-	"fmt"
 	"github.com/infinity-oj/cli/internal/output"
 	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
-	"net/http"
 )
 
-func NewCreateSubmissionCommand(api api.API) *cli.Command {
+func NewCreateJudgementCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "create",
 		Aliases:      []string{"c"},
-		Usage:        "create a new submission",
+		Usage:        "create a new judgement",
 		UsageText:    "",
 		Description:  "",
 		ArgsUsage:    "",
@@ -24,20 +22,14 @@ func NewCreateSubmissionCommand(api api.API) *cli.Command {
 			problemId := c.String("problemId")
 			volume := c.String("volume")
 
-			code, submission, err := api.NewSubmissionAPI().Create(problemId, volume)
+			judgement, err := api.NewJudgementAPI().Create(problemId, volume)
 			if err != nil {
 				return err
 			}
 
-			if code == http.StatusOK {
-				tbl := output.NewTable("ID", "Time", "Problem", "Volume")
-				tbl.AddRow(submission.Name, submission.CreatedAt, submission.ProblemId, submission.UserVolume)
-				tbl.Print()
-			} else if code == http.StatusForbidden {
-				fmt.Println("Rejected")
-			} else {
-				fmt.Printf("Server aborts with status code %d\n", code)
-			}
+			tbl := output.NewTable("ID", "Time", "Submission", "Score")
+			tbl.AddRow(judgement.JudgementId, judgement.CreatedAt, judgement.SubmissionId, judgement.Score)
+			tbl.Print()
 
 			return nil
 		},

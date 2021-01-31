@@ -1,4 +1,4 @@
-package volumes
+package judgements
 
 import (
 	"fmt"
@@ -8,19 +8,22 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type VolumeCommands *cli.Command
+type JudgementCommands *cli.Command
 
-var ProviderSet = wire.NewSet(NewVolumeCommands)
+var ProviderSet = wire.NewSet(NewJudgementsCommands)
 
-func NewVolumeCommands(api api.API) VolumeCommands {
+func NewJudgementsCommands(api api.API) JudgementCommands {
 	var subCommands = []*cli.Command{
-		NewCreateVolumeCommand(api),
-		NewUploadCommand(api),
+		NewCreateJudgementCommand(api),
+		NewQueryJudgementCommand(api),
+		NewCancelJudgementCommand(api),
+		//NewCreateSubmissionCommand(submissionService),
+		//NewDispatchSubmissionCommand(submissionService),
 	}
 	return &cli.Command{
-		Name:        "volumes",
-		Aliases:     []string{"v"},
-		Usage:       "options for volume actions",
+		Name:        "judgements",
+		Aliases:     []string{"j"},
+		Usage:       "options for judgements actions",
 		UsageText:   "",
 		Description: "",
 		ArgsUsage:   "",

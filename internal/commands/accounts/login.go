@@ -1,11 +1,18 @@
 package accounts
 
 import (
-	"github.com/infinity-oj/cli/internal/service"
+	"bufio"
+	"fmt"
+	"github.com/infinity-oj/cli/internal/clients"
+	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
+	"golang.org/x/crypto/ssh/terminal"
+	"os"
+	"strings"
+	"syscall"
 )
 
-func NewLoginAccountCommand(accountService service.AccountService) *cli.Command {
+func NewLoginAccountCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "login",
 		Aliases:      nil,
@@ -18,31 +25,35 @@ func NewLoginAccountCommand(accountService service.AccountService) *cli.Command 
 		Before:       nil,
 		After:        nil,
 		Action: func(c *cli.Context) error {
-			//fmt.Println("new task template: ", c.Args().First())
-			username := c.String("username")
-			password := c.String("password")
-			err := accountService.Login(username, password)
+			reader := bufio.NewReader(os.Stdin)
+
+			fmt.Print("Enter username: ")
+			username, err := reader.ReadString('\n')
 			if err != nil {
 				return err
 			}
-			return nil
+			username = strings.TrimSpace(username)
+
+			fmt.Print("Enter password: ")
+			bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
+			if err != nil {
+				return err
+			}
+			password := strings.TrimSpace(string(bytePassword))
+			fmt.Println()
+
+			err = api.NewAccountAPI().Login(username, password)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println("Login successfully")
+
+			return clients.Jar.Save()
 		},
-		OnUsageError: nil,
-		Subcommands:  nil,
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:     "username",
-				Required: true,
-				Aliases:  []string{"u"},
-				Usage:    "account username to login",
-			},
-			&cli.StringFlag{
-				Name:     "password",
-				Required: true,
-				Aliases:  []string{"p"},
-				Usage:    "password for this account",
-			},
-		},
+		OnUsageError:           nil,
+		Subcommands:            nil,
+		Flags:                  nil,
 		SkipFlagParsing:        false,
 		HideHelp:               false,
 		Hidden:                 false,
