@@ -2,6 +2,10 @@ module github.com/infinity-oj/cli
 
 go 1.14
 
+replace (
+	github.com/infinity-oj/server-v2 => ../server-v2
+)
+
 require (
 	github.com/fatih/color v1.7.0
 	github.com/frankban/quicktest v1.11.3 // indirect
@@ -10,6 +14,7 @@ require (
 	github.com/infinity-oj/server-v2 v0.0.0-20201222185924-1f800c69e9b6
 	github.com/juju/go4 v0.0.0-20160222163258-40d72ab9641a // indirect
 	github.com/juju/persistent-cookiejar v0.0.0-20171026135701-d5e5a8405ef9
+	github.com/pkg/errors v0.9.1
 	github.com/rodaine/table v1.0.1
 	github.com/spf13/viper v1.7.0
 	github.com/urfave/cli/v2 v2.2.0

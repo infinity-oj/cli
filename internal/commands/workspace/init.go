@@ -1,19 +1,26 @@
 package workspace
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/infinity-oj/server-v2/pkg/api"
-	"github.com/urfave/cli/v2"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/infinity-oj/cli/internal/output"
+
+	"github.com/infinity-oj/server-v2/pkg/models"
+
+	"github.com/infinity-oj/server-v2/pkg/api"
+	"github.com/urfave/cli/v2"
 )
 
 func NewInitCommand(api api.API) *cli.Command {
 	return &cli.Command{
 		Name:         "init",
-		Usage:        "<problem> [<dir>]",
+		Usage:        "<problem name> [<target directory>]",
 		UsageText:    "",
 		Description:  "initialize a workspace",
 		ArgsUsage:    "",
@@ -22,17 +29,24 @@ func NewInitCommand(api api.API) *cli.Command {
 		Before:       nil,
 		After:        nil,
 		Action: func(c *cli.Context) error {
-			problem := ""
+			problemName := ""
 			if c.NArg() > 0 {
-				problem = c.Args().Get(0)
+				problemName = c.Args().Get(0)
+			} else {
+				return errors.New("missing argument <problem name>")
+			}
+
+			problem, err := api.NewProblemAPI().GetProblem(problemName)
+			if err != nil {
+				return err
 			}
 
 			pwd, err := os.Getwd()
 			if err != nil {
 				return err
 			}
-			path := filepath.Join(pwd, problem)
-			dirname := problem
+			path := filepath.Join(pwd, problemName)
+			dirname := problemName
 			if c.NArg() > 1 {
 				dirname = c.Args().Get(1)
 				if filepath.IsAbs(dirname) {
@@ -47,17 +61,27 @@ func NewInitCommand(api api.API) *cli.Command {
 			if isExist, err = exists(path); err != nil {
 				return err
 			}
-			if isEmpty, err = IsDirEmpty(path); err != nil {
-				return err
+			if isExist {
+				if isEmpty, err = IsDirEmpty(path); err != nil {
+					return err
+				}
+				if !isEmpty {
+					return errors.New(fmt.Sprintf(
+						"destination path '%s' already exists and is not an empty directory",
+						dirname))
+				}
 			}
-			if isExist && !isEmpty {
-				return errors.New(fmt.Sprintf(
-					"destination path '%s' already exists and is not an empty directory",
-					dirname))
-			}
-
 			fmt.Println(path)
 
+			if err = InitWorkSpace(problem, path); err != nil {
+				return err
+			}
+
+			tbl := output.NewTable("ID", "Name", "Title")
+			tbl.AddRow(problem.ID, problem.Name, problem.Title)
+			tbl.Print()
+
+			fmt.Println("success!")
 			return nil
 		},
 		OnUsageError: nil,
@@ -108,4 +132,36 @@ func IsDirEmpty(name string) (bool, error) {
 		return true, nil
 	}
 	return false, err
+}
+
+func InitWorkSpace(problem *models.Problem, path string) error {
+	mkdir := func(p string) error {
+		if err := os.Mkdir(p, 0644); err != nil {
+			return err
+		}
+		return nil
+	}
+
+	if err := mkdir(path); err != nil {
+		return err
+	}
+	if err := mkdir(filepath.Join(path, ".ioj")); err != nil {
+		return err
+	}
+
+	content := []byte(".ioj\n")
+	err := ioutil.WriteFile(filepath.Join(path, ".gitignore"), content, 0644)
+	if err != nil {
+		return err
+	}
+
+	config := Config{ProblemName: problem.Name}
+
+	jsonBytes, err := json.Marshal(config)
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(filepath.Join(path, ".ioj", "config.json"), jsonBytes, 0644)
+
+	return nil
 }
