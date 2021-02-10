@@ -73,7 +73,7 @@ func NewInitCommand(api api.API) *cli.Command {
 			}
 			fmt.Println(path)
 
-			if err = InitWorkSpace(problem, path); err != nil {
+			if err = InitWorkSpace(api, problem, path); err != nil {
 				return err
 			}
 
@@ -134,7 +134,7 @@ func IsDirEmpty(name string) (bool, error) {
 	return false, err
 }
 
-func InitWorkSpace(problem *models.Problem, path string) error {
+func InitWorkSpace(api api.API, problem *models.Problem, path string) error {
 	mkdir := func(p string) error {
 		if err := os.Mkdir(p, 0644); err != nil {
 			return err
@@ -145,7 +145,8 @@ func InitWorkSpace(problem *models.Problem, path string) error {
 	if err := mkdir(path); err != nil {
 		return err
 	}
-	if err := mkdir(filepath.Join(path, ".ioj")); err != nil {
+	iojPath := filepath.Join(path, ".ioj")
+	if err := mkdir(iojPath); err != nil {
 		return err
 	}
 
@@ -161,7 +162,21 @@ func InitWorkSpace(problem *models.Problem, path string) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(filepath.Join(path, ".ioj", "config.json"), jsonBytes, 0644)
+
+	err = ioutil.WriteFile(filepath.Join(iojPath, "config.json"), jsonBytes, 0644)
+
+	if problem.PublicVolume != "" {
+		fmt.Println(problem.PublicVolume)
+
+		content, err := api.NewVolumeAPI().DownloadVolume(problem.PublicVolume, "/")
+		if err != nil {
+			return err
+		}
+
+		if err := Unzip(content, filepath.Join(path, "resources")); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
