@@ -2,11 +2,12 @@ package volumes
 
 import (
 	"archive/zip"
+	"io"
+	"io/ioutil"
+
 	"github.com/infinity-oj/cli/internal/output"
 	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
-	"io"
-	"io/ioutil"
 )
 
 func NewCreateVolumeCommand(api api.API) *cli.Command {
@@ -23,8 +24,6 @@ func NewCreateVolumeCommand(api api.API) *cli.Command {
 		After:        nil,
 
 		Action: func(c *cli.Context) error {
-			api.NewAccountAPI().Login("wycers", "Ccat2683")
-
 			zipPath := c.String("zip")
 
 			volume, err := api.NewVolumeAPI().CreateVolume()
@@ -43,7 +42,7 @@ func NewCreateVolumeCommand(api api.API) *cli.Command {
 					if !f.FileInfo().IsDir() {
 						continue
 					}
-					err = api.NewVolumeAPI().CreateDirectory(volume.Name, f.Name)
+					volume, err = api.NewVolumeAPI().CreateDirectory(volume.Name, f.Name)
 					if err != nil {
 						return err
 					}
@@ -64,7 +63,7 @@ func NewCreateVolumeCommand(api api.API) *cli.Command {
 					if err != nil {
 						return err
 					}
-					err = api.NewVolumeAPI().CreateFile(volume.Name, f.Name, data)
+					volume, err = api.NewVolumeAPI().CreateFile(volume.Name, f.Name, data)
 					if err != nil && err != io.EOF {
 						return err
 					}

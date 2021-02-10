@@ -1,45 +1,48 @@
 package volumes
 
 import (
-	"fmt"
-	"github.com/infinity-oj/server-v2/pkg/api"
 	"io/ioutil"
 	"path"
 	"path/filepath"
 
+	"github.com/infinity-oj/cli/internal/output"
+
+	"github.com/infinity-oj/server-v2/pkg/api"
+	"github.com/infinity-oj/server-v2/pkg/models"
+
 	"github.com/urfave/cli/v2"
 )
 
-func uploadFile(api api.API, base, localFilePath, volume, remoteDir string) (err error) {
+func uploadFile(api api.API, base, localFilePath, volumeName, remoteDir string) (volume *models.Volume, err error) {
 	dat, err := ioutil.ReadFile(path.Join(base, localFilePath))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	err = api.NewVolumeAPI().CreateFile(volume, path.Join(remoteDir, path.Base(localFilePath)), dat)
+	volume, err = api.NewVolumeAPI().CreateFile(volumeName, path.Join(remoteDir, path.Base(localFilePath)), dat)
 	if err != nil {
-		return
+		return nil, err
 	}
 	return
 }
 
-func uploadDirectory(api api.API, base, localDir, volume, remoteDir string) (err error) {
+func uploadDirectory(api api.API, base, localDir, volumeName, remoteDir string) (volume *models.Volume, err error) {
 	files, err := ioutil.ReadDir(path.Join(base, localDir))
 	if err != nil {
 		return
 	}
 	remoteDir = path.Join(remoteDir, localDir)
 
-	err = api.NewVolumeAPI().CreateDirectory(volume, remoteDir)
+	volume, err = api.NewVolumeAPI().CreateDirectory(volumeName, remoteDir)
 	if err != nil {
 		return
 	}
 
 	for _, f := range files {
 		if f.IsDir() {
-			err = uploadDirectory(api, base, path.Join(localDir, f.Name()), volume, remoteDir)
+			volume, err = uploadDirectory(api, base, path.Join(localDir, f.Name()), volumeName, remoteDir)
 		} else {
-			err = uploadFile(api, base, path.Join(localDir, f.Name()), volume, remoteDir)
+			volume, err = uploadFile(api, base, path.Join(localDir, f.Name()), volumeName, remoteDir)
 		}
 		if err != nil {
 			return
@@ -75,17 +78,19 @@ func NewUploadCommand(api api.API) *cli.Command {
 			base := filepath.Base(p)
 			p = filepath.Dir(p)
 
+			var volume *models.Volume
 			if r {
-				if err := uploadDirectory(api, p, base, s, vp); err != nil {
-					return err
-				}
+				volume, err = uploadDirectory(api, p, base, s, vp)
 			} else {
-				if err := uploadFile(api, p, base, s, vp); err != nil {
-					return err
-				}
+				volume, err = uploadFile(api, p, base, s, vp)
+			}
+			if err != nil {
+				return err
 			}
 
-			fmt.Println("success!")
+			tbl := output.NewTable("ID")
+			tbl.AddRow(volume.Name)
+			tbl.Print()
 
 			return nil
 		},
