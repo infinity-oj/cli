@@ -14,5 +14,6 @@ var ProviderSet = wire.NewSet(NewWorkspaceCommands)
 func NewWorkspaceCommands(api api.API) Commands {
 	return []*cli.Command{
 		NewInitCommand(api),
+		NewSubmitCommand(api),
 	}
 }

@@ -2,10 +2,11 @@ package submissions
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/infinity-oj/cli/internal/output"
 	"github.com/infinity-oj/server-v2/pkg/api"
 	"github.com/urfave/cli/v2"
-	"net/http"
 )
 
 func NewCreateSubmissionCommand(api api.API) *cli.Command {
@@ -24,7 +25,7 @@ func NewCreateSubmissionCommand(api api.API) *cli.Command {
 			problemId := c.String("problemId")
 			volume := c.String("volume")
 
-			code, submission, err := api.NewSubmissionAPI().Create(problemId, volume)
+			code, submission, _, err := api.NewSubmissionAPI().Create(problemId, volume)
 			if err != nil {
 				return err
 			}

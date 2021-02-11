@@ -13,7 +13,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func uploadFile(api api.API, base, localFilePath, volumeName, remoteDir string) (volume *models.Volume, err error) {
+func UploadFile(api api.API, base, localFilePath, volumeName, remoteDir string) (volume *models.Volume, err error) {
 	dat, err := ioutil.ReadFile(path.Join(base, localFilePath))
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func uploadFile(api api.API, base, localFilePath, volumeName, remoteDir string) 
 	return
 }
 
-func uploadDirectory(api api.API, base, localDir, volumeName, remoteDir string) (volume *models.Volume, err error) {
+func UploadDirectory(api api.API, base, localDir, volumeName, remoteDir string) (volume *models.Volume, err error) {
 	files, err := ioutil.ReadDir(path.Join(base, localDir))
 	if err != nil {
 		return
@@ -40,9 +40,9 @@ func uploadDirectory(api api.API, base, localDir, volumeName, remoteDir string) 
 
 	for _, f := range files {
 		if f.IsDir() {
-			volume, err = uploadDirectory(api, base, path.Join(localDir, f.Name()), volumeName, remoteDir)
+			volume, err = UploadDirectory(api, base, path.Join(localDir, f.Name()), volumeName, remoteDir)
 		} else {
-			volume, err = uploadFile(api, base, path.Join(localDir, f.Name()), volumeName, remoteDir)
+			volume, err = UploadFile(api, base, path.Join(localDir, f.Name()), volumeName, remoteDir)
 		}
 		if err != nil {
 			return
@@ -80,9 +80,9 @@ func NewUploadCommand(api api.API) *cli.Command {
 
 			var volume *models.Volume
 			if r {
-				volume, err = uploadDirectory(api, p, base, s, vp)
+				volume, err = UploadDirectory(api, p, base, s, vp)
 			} else {
-				volume, err = uploadFile(api, p, base, s, vp)
+				volume, err = UploadFile(api, p, base, s, vp)
 			}
 			if err != nil {
 				return err
