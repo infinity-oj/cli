@@ -2,6 +2,11 @@ package app
 
 import (
 	"fmt"
+	"net/http"
+	"net/url"
+	"path"
+	"time"
+
 	"github.com/google/wire"
 	"github.com/inconshreveable/go-update"
 	"github.com/infinity-oj/cli/internal/commands/accounts"
@@ -10,17 +15,13 @@ import (
 	"github.com/infinity-oj/cli/internal/commands/volumes"
 	"github.com/infinity-oj/cli/internal/commands/workspace"
 	"github.com/urfave/cli/v2"
-	"net/http"
-	"net/url"
-	"path"
-	"time"
 )
 
 func NewApp(
 	workspaceCommands workspace.Commands,
 	accountsCommand accounts.AccountCommands,
 	volumeCommand volumes.VolumeCommands,
-//problemCommand problem.AccountCommands,
+	//problemCommand problem.AccountCommands,
 	submissionCommand submissions.SubmissionCommands,
 	judgementCommand judgements.JudgementCommands,
 ) *cli.App {
@@ -51,7 +52,7 @@ func NewApp(
 				Before:       nil,
 				After:        nil,
 				Action: func(context *cli.Context) error {
-					u, _ := url.Parse("http://10.20.107.171:2333")
+					u, _ := url.Parse("http://127.0.0.1:8888")
 					u.Path = path.Join(u.Path, "assets", "cli", filename())
 					resp, err := http.Get(u.String())
 					if err != nil {
